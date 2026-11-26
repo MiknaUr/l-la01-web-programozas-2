@@ -1,14 +1,18 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html lang="hu">
     <head>
-        <link rel="stylesheet" href="/css/style.css">
+        <title>Web2 Beadandó</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link rel="stylesheet" href="/css/style.css" />
     </head>
-    <body>
-        <nav>
-            <a href="/">Home</a>
-            <% if(user){ %><a href="/user">User</a> <% } %>
-            <% if(user && user.role=="admin"){ %><a href="/admin">Admin</a> <% } %>
-            <% if(!user){ %><a href="/login">Login</a> <a href="/register">Register</a> <% }else{ %>
-            <%= user.username %> <a href="/logout">Logout</a> <% } %>
-        </nav>
-        <hr>
+    <body class="is-preload">
+        <div id="wrapper">
+            <div id="main">
+                <div class="inner">
+                    <header id="header">
+                        <a href="/" class="logo"><strong>Web2</strong> Beadandó</a>
+                        <% if(user){ %><span><%= user.username %></span><% } %>
+                    </header>
+                    <section>

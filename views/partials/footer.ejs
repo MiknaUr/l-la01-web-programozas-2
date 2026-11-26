@@ -1,2 +1,42 @@
+                    </section>
+                </div>
+            </div>
+            <div id="sidebar">
+                <div class="inner">
+                    <nav id="menu">
+                        <header class="major">
+                            <h2>Menü</h2>
+                        </header>
+                        <ul>
+                            <li><a href="/">Főoldal</a></li>
+                            <li><a href="/adatbazis">Adatbázis</a></li>
+                            <li><a href="/kapcsolat">Kapcsolat</a></li>
+                            <% if(user){ %>
+                            <li><a href="/uzenetek">Üzenetek</a></li>
+                            <li><a href="/diagram">Diagram</a></li>
+                            <% } %>
+                            <% if(user && user.role === "admin"){ %>
+                            <li><a href="/crud">CRUD</a></li>
+                            <% } %>
+                            <% if(!user){ %>
+                            <li><a href="/login">Bejelentkezés</a></li>
+                            <li><a href="/register">Regisztráció</a></li>
+                            <% } else { %>
+                            <li><a href="/logout">Kijelentkezés</a></li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                    <footer id="footer">
+                        <p class="copyright">Készítette: Kun Mihály (VFHZPB), Mikna Dávid Ervin (D1F6OL)</p>
+                        <p class="copyright">Design: <a href="https://html5up.net">HTML5 UP</a></p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/browser.min.js"></script>
+        <script src="/assets/js/breakpoints.min.js"></script>
+        <script src="/assets/js/util.js"></script>
+        <script src="/assets/js/main.js"></script>
     </body>
-    </html>
+</html>
