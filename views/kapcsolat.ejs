@@ -1,0 +1,30 @@
+<%- include("partials/header") %>
+<header class="main">
+    <h1>Kapcsolat</h1>
+</header>
+<p>Kérdése vagy észrevétele van? Írjon nekünk az alábbi űrlapon!</p>
+<% if(success){ %><p class="success"><%= success %></p><% } %>
+<% if(message){ %><p class="message"><%= message %></p><% } %>
+<form method="POST" action="/kapcsolat">
+    <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+            <input type="text" name="name" placeholder="Név">
+        </div>
+        <div class="col-6 col-12-xsmall">
+            <input type="email" name="email" placeholder="Email cím">
+        </div>
+        <div class="col-12">
+            <input type="text" name="subject" placeholder="Tárgy">
+        </div>
+        <div class="col-12">
+            <textarea name="text" placeholder="Üzenet" rows="6"></textarea>
+        </div>
+        <div class="col-12">
+            <ul class="actions">
+                <li><input type="submit" value="Küldés" class="primary"></li>
+                <li><input type="reset" value="Törlés"></li>
+            </ul>
+        </div>
+    </div>
+</form>
+<%- include("partials/footer") %>
