@@ -21,5 +21,6 @@ app.use((req, res, next) => {
     next();
 });
 app.use("/", require("./routes/mainRouter"));
+app.use("/", require("./routes/dataRouter"));
 const port = 3000;
 app.listen(port, () => {console.log(`Server: http://localhost:${port}`);});
