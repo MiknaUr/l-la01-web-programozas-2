@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const { MongoStore } = require("connect-mongo");
 const app = express();
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGODB_PASSW);
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
