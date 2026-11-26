@@ -4,20 +4,24 @@
 </header>
 <p>Kérdése vagy észrevétele van? Írjon nekünk az alábbi űrlapon!</p>
 <% if(success){ %><p class="success"><%= success %></p><% } %>
-<% if(message){ %><p class="message"><%= message %></p><% } %>
+<% if(errors.length > 0){ %>
+<ul class="message">
+    <% errors.forEach(error => { %><li><%= error %></li><% }) %>
+</ul>
+<% } %>
 <form method="POST" action="/kapcsolat">
     <div class="row gtr-uniform">
         <div class="col-6 col-12-xsmall">
-            <input type="text" name="name" placeholder="Név">
+            <input type="text" name="name" placeholder="Név" value="<%= old.name || '' %>">
         </div>
         <div class="col-6 col-12-xsmall">
-            <input type="email" name="email" placeholder="Email cím">
+            <input type="email" name="email" placeholder="Email cím" value="<%= old.email || '' %>">
         </div>
         <div class="col-12">
-            <input type="text" name="subject" placeholder="Tárgy">
+            <input type="text" name="subject" placeholder="Tárgy" value="<%= old.subject || '' %>">
         </div>
         <div class="col-12">
-            <textarea name="text" placeholder="Üzenet" rows="6"></textarea>
+            <textarea name="text" placeholder="Üzenet" rows="6"><%= old.text || '' %></textarea>
         </div>
         <div class="col-12">
             <ul class="actions">
