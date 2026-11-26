@@ -1,8 +1,22 @@
 <%- include("partials/header") %>
+<header class="main">
+    <h1>Bejelentkezés</h1>
+</header>
 <% if(message){ %><p class="message"><%= message %></p><% } %>
-<form method="POST">
-    <input name="username">
-    <input type="password" name="password">
-    <button>Login</button>
+<form method="POST" action="/login">
+    <div class="row gtr-uniform">
+        <div class="col-6 col-12-small">
+            <input type="text" name="username" placeholder="Felhasználónév" required>
+        </div>
+        <div class="col-6 col-12-small">
+            <input type="password" name="password" placeholder="Jelszó" required>
+        </div>
+        <div class="col-12">
+            <ul class="actions">
+                <li><input type="submit" value="Bejelentkezés" class="primary"></li>
+            </ul>
+        </div>
+    </div>
 </form>
+<p>Még nincs fiókja? <a href="/register">Regisztráljon itt.</a></p>
 <%- include("partials/footer") %>
