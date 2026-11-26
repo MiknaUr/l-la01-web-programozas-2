@@ -13,4 +13,5 @@ router.get("/user", isLoggedIn, controller.userIndex);
 router.get("/admin", isAdmin, controller.adminIndex);
 router.get("/kapcsolat", messageController.contactGet);
 router.post("/kapcsolat", messageController.contactPost);
+router.get("/uzenetek", isLoggedIn, messageController.messagesIndex);
 module.exports = router;

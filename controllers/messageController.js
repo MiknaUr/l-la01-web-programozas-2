@@ -39,3 +39,15 @@ exports.contactPost = async (req, res) => {
     req.session.success = "Köszönjük, az üzenetét elküldtük!";
     res.redirect("/kapcsolat");
 };
+
+const formatDate = (date) => new Date(date).toLocaleString("hu-HU", { timeZone: "Europe/Budapest" });
+
+exports.messagesIndex = async (req, res) => {
+    try {
+        const messages = await Message.find().sort({ createdAt: -1 }).lean();
+        messages.forEach(m => { m.sentAt = formatDate(m.createdAt); });
+        res.render("uzenetek", { messages: messages, error: "" });
+    } catch (err) {
+        res.status(500).render("uzenetek", { messages: [], error: "Az üzenetek betöltése nem sikerült!" });
+    }
+};

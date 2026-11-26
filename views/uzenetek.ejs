@@ -1,0 +1,35 @@
+<%- include("partials/header") %>
+<header class="main">
+    <h1>Üzenetek</h1>
+</header>
+<p>A kapcsolat űrlapon érkezett üzenetek, a legfrissebb elöl.</p>
+<% if(error){ %><p class="message"><%= error %></p><% } %>
+<% if(messages.length === 0 && !error){ %>
+<p>Még nem érkezett üzenet.</p>
+<% } else if(messages.length > 0){ %>
+<div class="table-wrapper">
+    <table class="alt">
+        <thead>
+            <tr>
+                <th>Küldés ideje</th>
+                <th>Név</th>
+                <th>Email</th>
+                <th>Tárgy</th>
+                <th>Üzenet</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% messages.forEach(m => { %>
+            <tr>
+                <td><%= m.sentAt %></td>
+                <td><%= m.name %></td>
+                <td><%= m.email %></td>
+                <td><%= m.subject %></td>
+                <td><%= m.text %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+<% } %>
+<%- include("partials/footer") %>
