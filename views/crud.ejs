@@ -17,6 +17,7 @@
                     <th scope="col">Típus</th>
                     <th scope="col">Ár</th>
                     <th scope="col">Készlet</th>
+                    <th scope="col">Műveletek</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,13 @@
                         <td><%= gep.tipus %></td>
                         <td><%= szam.format(gep.ar) %> Ft</td>
                         <td><%= szam.format(gep.db) %> db</td>
+                        <td>
+                            <a class="button small" href="/crud/<%= gep._id %>/szerkesztes">Szerkesztés</a>
+                            <form method="post" action="/crud/<%= gep._id %>/torles"
+                                onsubmit="return confirm('Biztosan törlöd ezt a notebookot?');">
+                                <button class="small" type="submit">Törlés</button>
+                            </form>
+                        </td>
                     </tr>
                 <% } %>
             </tbody>

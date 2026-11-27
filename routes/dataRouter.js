@@ -1,3 +1,4 @@
+const { isValidObjectId } = require("mongoose");
 const router = require("express").Router();
 const { isLoggedIn, isAdmin } = require("../middleware/auth");
 const Gep = require("../models/Gep");
@@ -77,26 +78,62 @@ router.get("/crud", isAdmin, async (req, res) => {
     res.render("crud", { gepek });
 });
 
-router.get("/crud/uj", isAdmin, async (req, res) => {
-    res.render("notebook-urlap", {
-        ...(await betoltOpcioListak()),
-        adatok: {},
-        hiba: ""
+function megjelenitUrlap(res, opciok, adatok, gepId, hiba = "") {
+    return res.status(hiba ? 422 : 200).render("notebook-urlap", {
+        ...opciok, adatok, gepId, hiba
     });
+}
+
+router.param("gepId", (req, res, next, gepId) => {
+    if (!isValidObjectId(gepId)) {
+        return res.status(404).send("A notebook nem található.");
+    }
+    next();
 });
 
-router.post("/crud/uj", isAdmin, async (req, res) => {
+router.get("/crud/uj", isAdmin, async (req, res) => {
+    megjelenitUrlap(res, await betoltOpcioListak(), {}, null);
+});
+
+router.get("/crud/:gepId/szerkesztes", isAdmin, async (req, res) => {
+    const gep = await Gep.findById(req.params.gepId).lean();
+    if (!gep) {
+        return res.status(404).send("A notebook nem található.");
+    }
+    megjelenitUrlap(res, await betoltOpcioListak(), gep, req.params.gepId);
+});
+
+async function mentNotebook(req, res) {
+    const gepId = req.params.gepId ?? null;
     const adatok = notebookAdatok(req.body);
     const opciok = await betoltOpcioListak();
     const hiba = ellenorizNotebook(adatok, opciok);
     if (hiba) {
-        return res.status(422).render("notebook-urlap", { ...opciok, adatok, hiba });
+        return megjelenitUrlap(res, opciok, adatok, gepId, hiba);
     }
 
     for (const mezo of szamMezok) {
         adatok[mezo] = Number(adatok[mezo].replace(",", "."));
     }
-    await Gep.create(adatok);
+    if (gepId) {
+        const eredmeny = await Gep.updateOne({ _id: gepId }, adatok, { runValidators: true });
+        if (!eredmeny.matchedCount) {
+            return res.status(404).send("A notebook nem található.");
+        }
+    } else {
+        await Gep.create(adatok);
+    }
+    res.redirect(303, "/crud");
+}
+
+router.post("/crud/uj", isAdmin, mentNotebook);
+router.post("/crud/:gepId/szerkesztes", isAdmin, mentNotebook);
+
+router.post("/crud/:gepId/torles", isAdmin, async (req, res) => {
+    const eredmeny = await Gep.deleteOne({ _id: req.params.gepId });
+    if (!eredmeny.deletedCount) {
+        return res.status(404).send("A notebook nem található.");
+    }
     res.redirect(303, "/crud");
 });
 

@@ -1,10 +1,10 @@
 <%- include("partials/header") %>
 
-<h1>Új notebook felvétele</h1>
+<h1><%= gepId ? "Notebook szerkesztése" : "Új notebook felvétele" %></h1>
 <% if (hiba) { %>
     <p role="alert"><strong><%= hiba %></strong></p>
 <% } %>
-<form method="post" action="/crud/uj">
+<form method="post" action="<%= gepId ? "/crud/" + gepId + "/szerkesztes" : "/crud/uj" %>">
     <div class="row gtr-uniform">
         <% const mezok = [
             ["gyarto", "Gyártó", "text"],
