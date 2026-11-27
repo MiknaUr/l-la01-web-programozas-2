@@ -1,0 +1,56 @@
+<%- include("partials/header") %>
+
+<h1>Notebookok gyártónként</h1>
+<% if (gyartok.length === 0) { %>
+    <p>Az adatbázisban még nincs notebook.</p>
+<% } else { %>
+    <p>A diagram megmutatja, hogy gyártónként hány notebook szerepel a katalógusban.</p>
+    <div>
+        <canvas id="gyarto-diagram" role="img" aria-label="Notebookok darabszáma gyártónként"></canvas>
+    </div>
+
+    <details>
+        <summary>Adatok táblázatban</summary>
+        <div class="table-wrapper">
+            <table id="gyarto-adatok">
+                <thead>
+                    <tr><th scope="col">Gyártó</th><th scope="col">Darabszám</th></tr>
+                </thead>
+                <tbody>
+                    <% for (const gyarto of gyartok) { %>
+                        <tr><td><%= gyarto._id %></td><td><%= gyarto.darab %></td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </details>
+    <p id="diagram-hiba" hidden>A diagram nem töltődött be. Az adatok a táblázatban elérhetők.</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+    <script>
+        if (typeof Chart === "undefined") {
+            document.getElementById("gyarto-diagram").hidden = true;
+            document.getElementById("diagram-hiba").hidden = false;
+        } else {
+            const sorok = Array.from(document.querySelectorAll("#gyarto-adatok tbody tr"));
+            new Chart(document.getElementById("gyarto-diagram"), {
+                type: "bar",
+                data: {
+                    labels: sorok.map(sor => sor.cells[0].textContent),
+                    datasets: [{
+                        label: "Notebookok száma",
+                        data: sorok.map(sor => Number(sor.cells[1].textContent)),
+                        backgroundColor: "#b83d46"
+                    }]
+                },
+                options: {
+                    indexAxis: "y",
+                    scales: { x: { beginAtZero: true, ticks: { precision: 0 } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+    </script>
+<% } %>
+
+<%- include("partials/footer") %>
