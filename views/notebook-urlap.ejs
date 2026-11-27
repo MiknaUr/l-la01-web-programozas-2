@@ -1,6 +1,8 @@
 <%- include("partials/header") %>
 
-<h1><%= gepId ? "Notebook szerkesztése" : "Új notebook felvétele" %></h1>
+<header class="main">
+    <h1><%= gepId ? "Notebook szerkesztése" : "Új notebook felvétele" %></h1>
+</header>
 <% if (hiba) { %>
     <p role="alert"><strong><%= hiba %></strong></p>
 <% } %>
