@@ -1,0 +1,53 @@
+<%- include("partials/header") %>
+
+<h1>Új notebook felvétele</h1>
+<% if (hiba) { %>
+    <p role="alert"><strong><%= hiba %></strong></p>
+<% } %>
+<form method="post" action="/crud/uj">
+    <div class="row gtr-uniform">
+        <% const mezok = [
+            ["gyarto", "Gyártó", "text"],
+            ["tipus", "Típus", "text"],
+            ["kijelzo", "Kijelzőméret (hüvelyk)", "decimal"],
+            ["memoria", "Memória (MB)", "numeric"],
+            ["merevlemez", "Tárhely (GB)", "numeric"],
+            ["videovezerlo", "Videovezérlő (opcionális)", "text"],
+            ["ar", "Ár (Ft)", "numeric"],
+            ["db", "Készlet (db)", "numeric"]
+        ]; %>
+        <% for (const [mezo, cimke, mod] of mezok) { %>
+            <div class="col-6 col-12-small">
+                <label for="<%= mezo %>"><%= cimke %></label>
+                <input id="<%= mezo %>" name="<%= mezo %>" type="text" inputmode="<%= mod %>"
+                    value="<%= adatok[mezo] ?? '' %>" <% if (mezo !== "videovezerlo") { %>required<% } %>>
+            </div>
+        <% } %>
+        <div class="col-6 col-12-small">
+            <label for="processzorid">Processzor</label>
+            <select id="processzorid" name="processzorid" required>
+                <option value="">Válassz processzort</option>
+                <% for (const elem of processzorok) { %>
+                    <option value="<%= elem.id %>" <% if (String(elem.id) === String(adatok.processzorid)) { %>selected<% } %>><%= elem.gyarto %> <%= elem.tipus %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="col-6 col-12-small">
+            <label for="oprendszerid">Operációs rendszer</label>
+            <select id="oprendszerid" name="oprendszerid" required>
+                <option value="">Válassz operációs rendszert</option>
+                <% for (const elem of oprendszerek) { %>
+                    <option value="<%= elem.id %>" <% if (String(elem.id) === String(adatok.oprendszerid)) { %>selected<% } %>><%= elem.nev %></option>
+                <% } %>
+            </select>
+        </div>
+        <div class="col-12">
+            <ul class="actions">
+                <li><button class="primary" type="submit">Mentés</button></li>
+                <li><a href="/crud" class="button">Vissza a listához</a></li>
+            </ul>
+        </div>
+    </div>
+</form>
+
+<%- include("partials/footer") %>

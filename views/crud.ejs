@@ -1,0 +1,36 @@
+<%- include("partials/header") %>
+
+<h1>Notebookok kezelése</h1>
+<ul class="actions">
+    <li><a href="/crud/uj" class="button primary">Új notebook</a></li>
+</ul>
+
+<% if (gepek.length === 0) { %>
+    <p>Az adatbázisban még nincs notebook.</p>
+<% } else { %>
+    <% const szam = new Intl.NumberFormat("hu-HU"); %>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Gyártó</th>
+                    <th scope="col">Típus</th>
+                    <th scope="col">Ár</th>
+                    <th scope="col">Készlet</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (const gep of gepek) { %>
+                    <tr>
+                        <td><%= gep.gyarto %></td>
+                        <td><%= gep.tipus %></td>
+                        <td><%= szam.format(gep.ar) %> Ft</td>
+                        <td><%= szam.format(gep.db) %> db</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+<% } %>
+
+<%- include("partials/footer") %>
